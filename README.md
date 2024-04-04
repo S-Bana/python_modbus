@@ -1,6 +1,6 @@
 # python_modbus
-PyModbus 
-multiprocessing
-pandas
-time
+PyModbus , 
+multiprocessing , 
+pandas , 
+time 
 
