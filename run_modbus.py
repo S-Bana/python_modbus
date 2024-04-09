@@ -10,5 +10,3 @@ from datetime import datetime
 from multiprocessing import Pool
 from dotenv import load_dotenv
 
-
-
