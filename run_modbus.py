@@ -5,6 +5,7 @@ from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
 from pymodbus.transaction import ModbusRtuFramer as ModbusFramer
 import time
+import jdatetime
 import pandas as pd
 from datetime import datetime
 from multiprocessing import Pool
@@ -69,6 +70,26 @@ def read_and_decode_registers(client, address, count, slave):
     except Exception as e:
         print(f"Error reading data: {e}")
     return None
+
+# === function save data in dataframe =========================
+def save_row_in_df(ip_address, column_list, address_list, port_p, new_row):
+    # print('sdsd')
+    if new_row is not None:
+        # print('dfsdf')
+        day_time = jdatetime.datetime.now().strftime("%Y_%m_%d")
+        s_ip_c1 = ip_address.replace('.', '_')
+        
+        t = time.localtime()
+        new_row[0] = f'{t.tm_hour}:{t.tm_min}:{t.tm_sec}'
+
+        path = f'data_{s_ip_c1}_{port_p}_{day_time}.csv'
+
+        if not os.path.exists(path):
+            df = pd.DataFrame(columns=column_list, dtype = float)
+            df.to_csv(path, index=False)
+
+        df = pd.DataFrame([new_row], columns=address_list)
+        df.to_csv(path, mode='a', header=False, index=False)
 
 # === send register to device =================================
 def process_ip_port(ip_port_tuple):
