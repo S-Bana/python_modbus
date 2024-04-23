@@ -109,6 +109,7 @@ def process_ip_port(ip_port_tuple):
 
         if len(new_row) == len(list_address):
             print("ok")
+            save_row_in_df(ip_i, list_column, list_address, port_p, new_row)
         
         # close connection mudbus
         client.close()
@@ -131,6 +132,11 @@ if __name__ == "__main__":
         # print(initialize_udp_client(ip=z[0],port=z[1]))
         # print('*'*50)
         # print(print(process_ip_port(tasks[0])))
+        
+        with Pool(processes=4) as pool:  # Adjust the number of processes as needed
+            results = pool.map(process_ip_port, tasks)
+            for result in results:
+                print(result)
         print('*'*50)
 
         break
