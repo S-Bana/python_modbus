@@ -51,19 +51,31 @@ This command make a list of
 z = tasks[1]
 # print(z)
 
-print(z[0])
+# print(z)
 
 # === make conection to mudbus ================================
 def initialize_udp_client(ip, port):
     return ModbusUdpClient(ip, port=port, framer=ModbusFramer,timeout=0.1)
 
-    
+# === send register to device =================================
+def process_ip_port(ip_port_tuple):
+    ip_i, port_p, list_address, list_column = ip_port_tuple
+    start_time = datetime.now()
+
+    if check_ip(ip_i):
+        client = initialize_udp_client(ip_i, port_p)
+        end_time = datetime.now()
+        return f"Processed {ip_i}:{port_p}, Duration: {end_time - start_time}"
+    else:
+        return f"Error {ip_i} not found"
+
 # === main method =============================================
 # a conditional statement for run main method
 if __name__ == "__main__":
     while True:
         # main()
-        print(check_ip(z[0]))
+        # print(check_ip(z[0]))
         print('*'*50)
-        print(initialize_udp_client(ip=z[0],port=z[1]))
+        # print(initialize_udp_client(ip=z[0],port=z[1]))
+        print(print(process_ip_port(tasks[0])))
         break
