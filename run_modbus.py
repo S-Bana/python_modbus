@@ -53,6 +53,11 @@ z = tasks[1]
 
 print(z[0])
 
+# === make conection to mudbus ================================
+def initialize_udp_client(ip, port):
+    return ModbusUdpClient(ip, port=port, framer=ModbusFramer,timeout=0.1)
+
+    
 # === main method =============================================
 # a conditional statement for run main method
 if __name__ == "__main__":
@@ -60,4 +65,5 @@ if __name__ == "__main__":
         # main()
         print(check_ip(z[0]))
         print('*'*50)
+        print(initialize_udp_client(ip=z[0],port=z[1]))
         break
