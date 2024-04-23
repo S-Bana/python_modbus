@@ -57,6 +57,19 @@ z = tasks[1]
 def initialize_udp_client(ip, port):
     return ModbusUdpClient(ip, port=port, framer=ModbusFramer,timeout=0.1)
 
+# === read and decode register ================================
+def read_and_decode_registers(client, address, count, slave):
+    try:
+        result = client.read_holding_registers(address=address, count=count, slave=slave)
+        if not result.isError():
+            decoder = BinaryPayloadDecoder.fromRegisters(result.registers,
+                                                         byteorder=Endian.BIG,
+                                                         wordorder=Endian.LITTLE)
+            return decoder.decode_16bit_int()
+    except Exception as e:
+        print(f"Error reading data: {e}")
+    return None
+
 # === send register to device =================================
 def process_ip_port(ip_port_tuple):
     ip_i, port_p, list_address, list_column = ip_port_tuple
@@ -64,10 +77,11 @@ def process_ip_port(ip_port_tuple):
 
     if check_ip(ip_i):
         client = initialize_udp_client(ip_i, port_p)
+        
         end_time = datetime.now()
         return f"Processed {ip_i}:{port_p}, Duration: {end_time - start_time}"
     else:
-        return f"Error {ip_i} not found"
+        return f"Error {ip_i}:{port_p} not found"
 
 # === main method =============================================
 # a conditional statement for run main method
@@ -75,7 +89,10 @@ if __name__ == "__main__":
     while True:
         # main()
         # print(check_ip(z[0]))
-        print('*'*50)
+        # print('*'*50)
         # print(initialize_udp_client(ip=z[0],port=z[1]))
-        print(print(process_ip_port(tasks[0])))
+        # print('*'*50)
+        # print(print(process_ip_port(tasks[0])))
+        print('*'*50)
+
         break
