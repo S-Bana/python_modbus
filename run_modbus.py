@@ -78,7 +78,24 @@ def process_ip_port(ip_port_tuple):
     if check_ip(ip_i):
         client = initialize_udp_client(ip_i, port_p)
         
+        new_row = []
+        for reg_a in list_address:
+            data = read_and_decode_registers(client, reg_a, count=1, slave=12)  # Assuming count=1 and slave=12 are constants
+            if data is not None:
+                new_row.append(int(data))
+            else:
+                break  # Stop processing this IP if any read fails
+
+        if len(new_row) == len(list_address):
+            print("ok")
+        
+        # close connection mudbus
+        client.close()
+
+        # calclute run time process
         end_time = datetime.now()
+
+        # return result and time spend
         return f"Processed {ip_i}:{port_p}, Duration: {end_time - start_time}"
     else:
         return f"Error {ip_i}:{port_p} not found"
