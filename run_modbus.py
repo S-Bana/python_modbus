@@ -32,6 +32,11 @@ list_address = list(dict_usual_parameters.values())
 # print("*"*50)
 # print(list_address)
 
+# === ip check +=============================================
+def check_ip(in_ip):
+    response = os.popen(f"ping -c 1 -W 0.1 {in_ip}").read()
+    return "100% packet loss" not in response
+
 # === make task =============================================
 tasks = [(ip, port, list_address, list_column) for ip in list_ip for port in ports]
 '''
@@ -43,10 +48,8 @@ This command make a list of
     ip[1],port[1],[list_reg],[list_column],
 ]
 '''
-# print(tasks[1])
+z = tasks[1]
+# print(z)
 
+print(z[0])
 
-# with Pool(processes=4) as pool:  # Adjust the number of processes as needed
-#     results = pool.map(process_ip_port, tasks)
-#     for result in results:
-#         print(result)
