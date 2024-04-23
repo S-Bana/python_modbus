@@ -53,3 +53,11 @@ z = tasks[1]
 
 print(z[0])
 
+# === main method =============================================
+# a conditional statement for run main method
+if __name__ == "__main__":
+    while True:
+        # main()
+        print(check_ip(z[0]))
+        print('*'*50)
+        break
