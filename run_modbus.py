@@ -101,14 +101,14 @@ def process_ip_port(ip_port_tuple):
         
         new_row = []
         for reg_a in list_address:
-            data = read_and_decode_registers(client, reg_a, count=1, slave=12)  # Assuming count=1 and slave=12 are constants
+            data = read_and_decode_registers(client, int(reg_a), count=1, slave=112)  # Assuming count=1 and slave=12 are constants
             if data is not None:
                 new_row.append(int(data))
             else:
                 break  # Stop processing this IP if any read fails
 
         if len(new_row) == len(list_address):
-            print("ok")
+            # print("ok")
             save_row_in_df(ip_i, list_column, list_address, port_p, new_row)
         
         # close connection mudbus
@@ -139,4 +139,4 @@ if __name__ == "__main__":
                 print(result)
         print('*'*50)
 
-        break
+        # break
